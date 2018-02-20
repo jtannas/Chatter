@@ -1,0 +1,24 @@
+@import variables
+@import mixins
+
+.chatbar
+  +bottom-bar
+  background: $primary-color
+  border-top: $primary-border
+  display: flex
+  padding: 5px
+
+  .chatbar-message,
+  .chatbar-username
+      border: $primary-border
+      display: block
+      height: 40px
+      line-height: 40px
+      margin: 5px
+      padding: 0 9px
+
+  .chatbar-message
+    flex: 8
+
+  .chatbar-username
+    flex: 2

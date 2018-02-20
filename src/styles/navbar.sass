@@ -1,0 +1,20 @@
+@import variables
+@import mixins
+
+.navbar
+  +top-bar
+  background: $primary-color
+  border-bottom: $primary-border
+  height: $navbar-height
+  padding: 0 10px
+
+  .navbar-brand
+    color: inherit
+    display: block
+    float: left
+    font-weight: 700
+    font-size: 28px
+    height: $navbar-height
+    line-height: $navbar-height
+    padding: 0 10px
+    text-decoration: none

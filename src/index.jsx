@@ -3,10 +3,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 // Styles
-import './styles/styles.scss';
+import './styles.sass';
 
 // Components
-import App from './components/App.jsx';
+import App from './App.jsx';
 
 // Render
 ReactDOM.render(<App />, document.getElementById('react-root'));
