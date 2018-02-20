@@ -10,12 +10,12 @@ class App extends Component {
     this.state = {
       currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [{
-          id: '000001',
+          id: 1,
           username: 'Bob',
           content: 'Has anyone seen my marbles?',
           type: 'UserMessage'
         }, {
-          id: '000002',
+          id: 2,
           username: 'Anonymous',
           content: 'No, I think you lost them. You lost your marbles Bob. You lost them for good.',
           type: 'UserMessage'
@@ -23,11 +23,30 @@ class App extends Component {
     }
   }
 
+  newMessage(newMessage) {
+    const messages = this.state.messages.concat(newMessage)
+    this.setState(prevState => {
+      return {
+        currentUser: prevState.currentUser,
+        messages: messages
+      };
+    })
+  }
+
+  componentDidMount() {
+    console.log("componentDidMount <App />");
+    setTimeout(() => {
+      console.log("Simulating incoming message");
+      const newMessage = {id: 3, username: "Michelle", content: "Hello there!", type: 'UserMessage'};
+      this.newMessage(newMessage);
+    }, 3000);
+  }
+
   render() {
     return [
       <NavBar key='navbar'/>,
       <Messages key='main' messages={this.state.messages}/>,
-      <ChatBar key='footer' currentUser={this.state.currentUser}/>
+      <ChatBar key='footer' currentUser={this.state.currentUser} newMessage={this.newMessage.bind(this)}/>
     ];
   }
 }

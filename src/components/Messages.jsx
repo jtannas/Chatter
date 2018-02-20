@@ -9,17 +9,14 @@ const MessageComponents = {
 }
 
 class Messages extends Component {
+
   render() {
     const messageArray = this.props.messages.map(message => {
       const MessageClass = MessageComponents[message.type] ||  UserMessage;
       return (<MessageClass key={message.id} message={message}/>);
     });
 
-    return (
-      <div className="messages">
-        {messageArray}
-      </div>
-    );
+    return (<div className="messages">{messageArray}</div>);
   }
 }
 export default Messages;
