@@ -4,7 +4,7 @@ class SysMessage extends Component {
   render() {
     return (
       <div className="message system">
-        Anonymous1 changed their name to nomnom.
+        <span className="message-content">{this.props.message.content}</span>
       </div>
     );
   }
