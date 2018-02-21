@@ -4,34 +4,43 @@ class ChatBar extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+
+    this.messageKeyPress = this.messageKeyPress.bind(this);
+    this.messageSubmit = this.messageSubmit.bind(this);
+
+    this.nameKeyPress = this.nameKeyPress.bind(this);
+    this.nameSubmit = this.nameSubmit.bind(this);
   }
 
-  onKeyPress(event) {
-    if (event.key === 'Enter') { this.onSubmit(event); }
+  messageKeyPress(event) {
+    if (event.key === 'Enter') { this.messageSubmit(event); }
   }
 
-  onInput(event) {
-    this.setState({ messageContent: event.target.value });
-  }
-
-  onSubmit(event) {
-    if (this.state.messageContent) {
+  messageSubmit(event) {
+    if (event.target.value) {
       this.props.newMessage({
-        id: 'placeholder' + Math.floor(Math.random() * 100000),
         username: this.props.currentUser.name,
-        content: this.state.messageContent,
+        color: this.props.currentUser.color,
+        content: event.target.value,
         type: 'UserMessage'
       })
-      this.setState({messageContent: ''});
+      event.target.value = '';
     }
+  }
+
+  nameKeyPress(event) {
+    if (event.key === 'Enter') { this.nameSubmit(event); }
+  }
+
+  nameSubmit(event) {
+    this.props.nameChange(event.target.value);
   }
 
   render() {
     return (
-      <form className="chatbar" onSubmit={this.onSubmit}>
-        <input className="chatbar-username" value={this.props.currentUser.name || "Your Name (Optional)"} />
-        <input className="chatbar-message" onInput={this.onInput.bind(this)} onKeyPress={this.onKeyPress.bind(this)} placeholder="Type a message and hit ENTER" value={this.state.messageContent || ''} required/>
+      <form className="chatbar">
+        <input className="chatbar-username" onKeyPress={this.nameKeyPress} placeholder="Your Name (Optional)" defaultValue={this.props.currentUser.name} />
+        <input className="chatbar-message" onKeyPress={this.messageKeyPress} placeholder="Type a message and hit ENTER" required/>
       </form>
     );
   }

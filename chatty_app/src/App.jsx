@@ -6,47 +6,61 @@ import ChatBar from './components/ChatBar.jsx'
 
 class App extends Component {
   constructor(props) {
+
     super(props);
+
+    this.socket = new WebSocket('ws://localhost:3001');
+    this.socket.onmessage = event => {
+      const message = JSON.parse(event.data);
+      switch (message.type) {
+        case 'UserMessage':
+        case 'SysMessage':
+          const messages = this.state.messages.concat(message);
+          this.setState({messages});
+          break;
+        case 'UserCount':
+          this.setState({userCount: message.userCount});
+          break;
+        case 'UserColor':
+          const currentUser = this.state.currentUser;
+          currentUser.color = message.color;
+          this.setState({currentUser});
+          break;
+        default:
+          console.log(message);
+      }
+    };
+
+    this.newMessage = this.newMessage.bind(this);
+    this.nameChange = this.nameChange.bind(this);
+
     this.state = {
-      currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [{
-          id: 1,
-          username: 'Bob',
-          content: 'Has anyone seen my marbles?',
-          type: 'UserMessage'
-        }, {
-          id: 2,
-          username: 'Anonymous',
-          content: 'No, I think you lost them. You lost your marbles Bob. You lost them for good.',
-          type: 'UserMessage'
-      }]
+      userCount: 1,
+      currentUser: {name: "Anonymous", color: "#FFFFFF"}, // optional. if currentUser is not defined, it means the user is Anonymous
+      messages: []
     }
   }
 
   newMessage(newMessage) {
-    const messages = this.state.messages.concat(newMessage)
-    this.setState(prevState => {
-      return {
-        currentUser: prevState.currentUser,
-        messages: messages
-      };
-    })
+    this.socket.send(JSON.stringify(newMessage));
   }
 
-  componentDidMount() {
-    console.log("componentDidMount <App />");
-    setTimeout(() => {
-      console.log("Simulating incoming message");
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!", type: 'UserMessage'};
-      this.newMessage(newMessage);
-    }, 3000);
+  nameChange(newName) {
+    const currentUser = this.state.currentUser;
+    const sysMessage = {
+      type: 'SysMessage',
+      content: `${currentUser.name} has changed their name to ${newName}`
+    }
+    currentUser.name = newName;
+    this.setState({ currentUser });
+    this.socket.send(JSON.stringify(sysMessage));
   }
 
   render() {
     return [
-      <NavBar key='navbar'/>,
+      <NavBar key='navbar' userCount={this.state.userCount}/>,
       <Messages key='main' messages={this.state.messages}/>,
-      <ChatBar key='footer' currentUser={this.state.currentUser} newMessage={this.newMessage.bind(this)}/>
+      <ChatBar key='footer' currentUser={this.state.currentUser} newMessage={this.newMessage} nameChange={this.nameChange}/>
     ];
   }
 }
