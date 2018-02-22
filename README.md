@@ -15,6 +15,38 @@ Without having to log in or select a name, you can connect and istantly start ch
 ## Known Bugs / Issues
 - It is very insecure right now - There's no validation or escaping of client messages
 
+## Installation Instructions
+From your terminal of choice...
+```
+$ git clone https://github.com/jtannas/Chatter.git
+$ cd Chatter
+$ cd chatty_server
+$ npm i
+$ cd ../chatty_app
+$ npm i
+```
+
+## Dev Server Start-up instructions
+You will need two terminals to run this
+Terminal 1 - The Express Websocket Server:
+```
+$ cd Chatter
+$ cd chatty_server
+$ npm start
+```
+Terminal 2 - The Webpack Dev Server:
+```
+$ cd Chatter
+$ cd chatty_app
+$ npm start
+```
+You should now be able to access the app using a web browser at localhost:8080 (by default);
+
+## Server Config
+The chatty_app uses `webpack-dev-server` which is pretty much 'batteries-included'. It serves the `index.html` based on the settings in `chatty_app/webpack.config.js`. Though not suitable for a production environment, it's very convenient for development. Dig around in the webpack-dev-server documentation for how to configure it, likely by modifying the npm start command in`chatty_app/package.json`.
+
+The chatty_server uses express and websockets. Everything you really need is baked into `chatty_server/server.js`. There are some settings (e.g. PORT) set via constants near the top of the file. Feel free to modify those to your needs.
+
 ## Lighthouse Requirements
 ### Goal
 Many of the web applications that you use today have real-time functionality where the user does not have to reload the page in order to see updates. Major examples of these include Slack, Twitter and Facebook.
