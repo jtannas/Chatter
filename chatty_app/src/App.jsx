@@ -18,7 +18,7 @@ class App extends Component {
     super(props);
     this.state = {
       userCount: 1,
-      currentUser: {name: 'Anonymous', color: '#FFFFFF'},
+      currentUser: {name: 'Anonymous', color: '#000000'},
       messages: []
     }
     this.socket = new WebSocket(SERVER_SOCKET_ADDRESS);
