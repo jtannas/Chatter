@@ -1,3 +1,7 @@
+/**
+ * System Message display component
+ */
+
 import React, {Component} from 'react';
 
 class SysMessage extends Component {
@@ -9,4 +13,5 @@ class SysMessage extends Component {
     );
   }
 }
+
 export default SysMessage;

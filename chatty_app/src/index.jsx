@@ -1,12 +1,13 @@
-// Core Imports
+/**
+ * This module ties the React App and Sass Styles together
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// Styles
-import './styles.sass';
 
-// Components
+import './styles.sass';
 import App from './App.jsx';
 
-// Render
+
 ReactDOM.render(<App />, document.getElementById('react-root'));

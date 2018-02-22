@@ -1,24 +1,38 @@
+/**
+ * User message display component
+ */
+
+// Imports
 import React, {Component} from 'react';
 
+// Main
 class UserMessage extends Component {
+  imageHandler(messageContent) {
+    const imgRegex = /\b\S+\.(?:gif|jpg|png)\b/gi;
+    const images = messageContent.trim().match(imgRegex);
+    return images && (
+      <React.Fragment>
+        <hr/>
+        {images.map((image, index) => <img key={index} src={image}/>)}
+      </React.Fragment>
+    );
+
+  }
+
   render() {
-    let content = this.props.message.content;
-    const images = content.trim().match(/\b\S+\.(?:gif|jpg|png)\b/gi);
-    if (images) {
-      content = (
-        <React.Fragment>
-          {this.props.message.content}
-          <hr/>
-          {images.map((image, index) => <img key={index} src={image}/>)}
-        </React.Fragment>
-      )
-    }
+    const message = this.props.message;
     return (
       <div className="message">
-        <span className="message-username" style={{color: this.props.message.color}}>{this.props.message.username}</span>
-        <span className="message-content">{content}</span>
+        <span className="message-username" style={{color: message.color}}>
+          {message.username}
+        </span>
+        <span className="message-content">
+          {message.content}
+          {this.imageHandler(message.content)}
+        </span>
       </div>
     );
   }
 }
+
 export default UserMessage;

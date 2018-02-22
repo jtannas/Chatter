@@ -1,3 +1,7 @@
+/**
+ * Helper functions for limited, generic problems
+ */
+
 function randBetween(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
